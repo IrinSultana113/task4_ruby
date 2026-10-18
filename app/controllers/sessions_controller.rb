@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   def new
+    render :login
   end
 
   def create
@@ -7,7 +8,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       if user.status == 'blocked'
         flash.now[:alert] = 'Your account is blocked.'
-        render :new, status: :unprocessable_entity
+        render :login, status: :unprocessable_entity
       else
         session[:user_id] = user.id
         user.update(last_seen: Time.current)
@@ -15,7 +16,7 @@ class SessionsController < ApplicationController
       end
     else
       flash.now[:alert] = 'Invalid email or password.'
-      render :new, status: :unprocessable_entity
+      render :login, status: :unprocessable_entity
     end
   end
 

@@ -8,6 +8,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    render :register
   end
 
   def create
@@ -21,7 +22,7 @@ class UsersController < ApplicationController
       redirect_to users_path
     else
       flash.now[:alert] = @user.errors.full_messages.join(', ')
-      render :new, status: :unprocessable_entity
+      render :register, status: :unprocessable_entity
     end
   end
 
