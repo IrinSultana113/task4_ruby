@@ -15,4 +15,5 @@ Rails.application.routes.draw do
       post :delete_selected
     end
   end
+  resource :chat, only: [:show, :create]
 end

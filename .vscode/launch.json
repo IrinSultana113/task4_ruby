@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "rdbg",
+      "name": "Debug Rails Server",
+      "request": "launch",
+      "script": "${workspaceFolder}/bin/rails",
+      "args": ["server", "-p", "3000"],
+      "askParameters": false,
+      "useTerminal": true,
+      "env": {
+        "RUBY_DEBUG_OPEN": "true",
+        "RUBY_DEBUG_NONSTOP": "true"
+      }
+    },
+    {
+      "type": "rdbg",
+      "name": "Debug current file with rdbg",
+      "request": "launch",
+      "script": "${file}",
+      "args": [],
+      "askParameters": true
+    },
+    {
+      "type": "rdbg",
+      "name": "Attach with rdbg",
+      "request": "attach",
+      "debugPort": "12345",
+      "localfs": true
+    }
+  ]
+}

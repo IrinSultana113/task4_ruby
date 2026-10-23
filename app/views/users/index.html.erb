@@ -1,7 +1,10 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>User Management Panel</h2>
+    <div class="d-flex gap-2">
+    <%= link_to "Ask AI", chat_path, class: "btn btn-primary btn-sm" %>
     <%= link_to 'Logout', logout_path, data: { turbo_method: :delete }, class: 'btn btn-outline-danger btn-sm' %>
+  </div>
   </div>
 
   <% if flash[:notice] %>
@@ -21,16 +24,13 @@
   <%= form_with url: '', method: :post, id: 'user-management-form' do %>
     <div class="card p-2 mb-3 bg-light shadow-sm">
       <div class="btn-toolbar gap-2" role="toolbar">
-        <button type="submit" formaction="<%= block_selected_users_path %>" class="btn btn-warning btn-sm">
-          <i class="bi bi-lock"></i>
+        <button type="submit" formaction="<%= block_selected_users_path %>" class="btn btn-warning btn-sm" title="Block selected users">
+          <i class="bi bi-lock"></i>Block
         </button>
-        <button type="submit" formaction="<%= unblock_selected_users_path %>" class="btn btn-success btn-sm">
+        <button type="submit" formaction="<%= unblock_selected_users_path %>" class="btn btn-success btn-sm" title="Unblock selected users">
           <i class="bi bi-unlock"></i>
         </button>
-        <button type="submit" 
-                formaction="<%= delete_selected_users_path %>" 
-                class="btn btn-danger btn-sm" 
-                onclick="return confirmDelete();">
+        <button type="submit" formaction="<%= delete_selected_users_path %>" class="btn btn-danger btn-sm" title="Delete selected users"onclick="return confirmDelete();">
           <i class="bi bi-trash"></i> 
         </button>
       </div>
