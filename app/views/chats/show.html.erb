@@ -8,7 +8,7 @@
 
   <div class="card shadow-sm">
     <div class="card-body">
-      <%= form_with url: chat_path, method: :post, data: { turbo: false } do |form| %>
+      <%= form_with url: chat_path, method: :post, data: { turbo: false }, html: { id: "chat-form" } do |form| %>
         <div class="mb-3">
           <%= form.label :question, "Ask a question",
               class: "form-label fw-semibold" %>
@@ -23,7 +23,13 @@
         </div>
 
         <%= form.submit "Ask AI",
-            class: "btn btn-primary" %>
+          class: "btn btn-primary",
+          id: "ask-ai-btn" %>
+
+        <div id="processing-message" class="mt-3" style="display: none;">
+          <span class="spinner-border spinner-border-sm" role="status"></span>
+          Processing... Please wait.
+        </div>
       <% end %>
 
       <% if @answer.present? %>
@@ -35,3 +41,20 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("chat-form");
+    const button = document.getElementById("ask-ai-btn");
+    const loading = document.getElementById("processing-message");
+
+    if (!form || !button || !loading) return;
+
+    form.addEventListener("submit", function () {
+      if (!form.checkValidity()) return;
+
+      button.disabled = true;
+      button.value = "Processing...";
+      loading.style.display = "block";
+    });
+  });
+</script>

@@ -47,7 +47,8 @@ default: &default
   password: "root"
   host: 127.0.0.1
   port: 3307
-  ssl_mode: :disabled
+  sslca: <%= Rails.root.join("config/ca.pem").to_s %>
+  sslverify: true
 
 development:
   <<: *default
