@@ -18,7 +18,7 @@ class OpenRouterService
     raise "Missing OPENROUTER_API_KEY in .env" if api_key.blank?
 
     payload = {
-      model: ENV.fetch("OPENROUTER_MODEL", "openrouter/free"),
+      model: ENV.fetch("OPENROUTER_MODEL", "recursive/flint-v1.0:free"),
       messages: messages,
       temperature: 0,
       max_tokens: 1000
@@ -30,13 +30,13 @@ class OpenRouterService
     end
 
     response = @connection.post(URL) do |request|
-      request.headers["Authorization"] = "Bearer #{api_key}"
+      request.headers["Authorization"] = "Bearer #{api_key.strip}"
       request.headers["Content-Type"] = "application/json"
       request.body = JSON.generate(payload)
-    end
+    end 
 
     unless response.success?
-      Rails.logger.error("OpenRouter HTTP #{response.status}")
+      Rails.logger.error("OpenRouter HTTP #{response.status}: #{response.body}")
       raise "OpenRouter request failed (HTTP #{response.status})"
     end
 
@@ -44,6 +44,7 @@ class OpenRouterService
 
     puts "\n========== OpenRouter API Response =========="
     puts JSON.pretty_generate(body)
+    Rails.logger.info("OpenRouter selected model: #{body["model"]}")
     puts "=============================================\n"
 
     unless body.dig("choices", 0, "message")
